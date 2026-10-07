@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // skrip bantu regenerasi hasil uji (Node CJS, bukan kode aplikasi):
+    "hasil-uji/**",
   ]),
 ]);
 

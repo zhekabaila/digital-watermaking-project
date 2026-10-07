@@ -1,26 +1,133 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fff8ec;
+  --foreground: #33302b;
+
+  /* palet ceria — hue hangat, saturasi terkontrol */
+  --sun: #ffb638; /* embed */
+  --sun-deep: #e89a1c;
+  --teal: #1fb8a6; /* extract */
+  --teal-deep: #148f81;
+  --coral: #ff6f61; /* attack lab */
+  --coral-deep: #e0503f;
+  --grape: #7c5cff; /* compare */
+  --grape-deep: #5b3fd6;
+  --sky: #45b8ff;
+  --leaf: #57c26a;
+
+  --paper: #fffdf7;
+  --line: #ece2cf;
+  --muted: #8a8073;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-paper: var(--paper);
+  --color-line: var(--line);
+  --color-muted: var(--muted);
+  --color-sun: var(--sun);
+  --color-sun-deep: var(--sun-deep);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-coral: var(--coral);
+  --color-coral-deep: var(--coral-deep);
+  --color-grape: var(--grape);
+  --color-grape-deep: var(--grape-deep);
+  --color-sky: var(--sky);
+  --color-leaf: var(--leaf);
+
+  --font-sans: var(--font-nunito), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fredoka), var(--font-nunito), ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  --shadow-pop-sun: 0 10px 30px -12px rgb(232 154 28 / 0.45);
+  --shadow-pop-teal: 0 10px 30px -12px rgb(20 143 129 / 0.4);
+  --shadow-pop-coral: 0 10px 30px -12px rgb(224 80 63 / 0.4);
+  --shadow-pop-grape: 0 10px 30px -12px rgb(91 63 214 / 0.4);
+  --shadow-card: 0 2px 0 0 var(--line), 0 14px 32px -20px rgb(51 48 43 / 0.28);
+
+  --radius-blobby: 28px 22px 30px 20px / 22px 30px 20px 28px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background:
+    radial-gradient(1100px 500px at 85% -10%, rgb(255 182 56 / 0.22), transparent 60%),
+    radial-gradient(900px 460px at -10% 20%, rgb(31 184 166 / 0.16), transparent 55%),
+    radial-gradient(800px 520px at 60% 110%, rgb(124 92 255 / 0.12), transparent 60%),
+    var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+/* grain halus supaya tidak terasa flat */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* reveal berjenjang saat halaman dimuat */
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.pop-in {
+  animation: pop-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.pop-in-1 { animation-delay: 0.05s; }
+.pop-in-2 { animation-delay: 0.14s; }
+.pop-in-3 { animation-delay: 0.23s; }
+.pop-in-4 { animation-delay: 0.32s; }
+
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(12px, -18px) scale(1.06); }
+}
+.blob {
+  animation: blob-float 9s ease-in-out infinite;
+}
+
+/* angka di tabel pakai tabular agar rapi */
+table {
+  font-variant-numeric: tabular-nums;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgb(69 184 255 / 0.55);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pop-in,
+  .blob {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
 }
